@@ -7,6 +7,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"time"
@@ -14,10 +15,24 @@ import (
 	"fileupload.renesanchez455.net/internal/data"
 )
 
-// // createEntryHandler for the "POST /v1/files" endpoint
-// func (app *application) uploadFileHandler(w http.ResponseWriter, r *http.Request) {
-// 	fmt.Fprintln(w, "upload a new file..")
-// }
+// createEntryHandler for the "POST /v1/user" endpoint
+func (app *application) createUserHandler(w http.ResponseWriter, r *http.Request) {
+	var input struct {
+		Name       string `json:"name"`
+		Phone      string `json:"phone"`
+		Email      string `json:"email"`
+		Address    string `json:"address"`
+		Occupation string `json:"occupation"`
+	}
+	// Initialize a new json.Decoder instance
+	err := json.NewDecoder(r.Body).Decode(&input)
+	if err != nil {
+		app.errorResponse(w, r, http.StatusBadRequest, err.Error())
+		return
+	}
+	// Display the request
+	fmt.Fprintf(w, "%+v\n", input)
+}
 
 // showEntryHandler for the "GET /v1/rand/:id" endpoint
 func (app *application) showRandStringHandler(w http.ResponseWriter, r *http.Request) {
