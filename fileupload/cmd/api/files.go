@@ -42,7 +42,7 @@ func (app *application) showUserHandler(w http.ResponseWriter, r *http.Request) 
 
 	// Create a new instance of the School struct containing the ID we extracted
 	// from our URL and some sample data
-	school := data.User{
+	user := data.User{
 		ID:         id,
 		CreatedAt:  time.Now(),
 		Name:       "Rene Sanchez",
@@ -51,7 +51,7 @@ func (app *application) showUserHandler(w http.ResponseWriter, r *http.Request) 
 		Occupation: "Student",
 		Version:    1,
 	}
-	err = app.writeJSON(w, http.StatusOK, school, nil)
+	err = app.writeJSON(w, http.StatusOK, envelope{"user": user}, nil)
 	if err != nil {
 		app.logger.Println(err)
 		http.Error(w, "The server encountered a problem and could not process your request", http.StatusInternalServerError)
