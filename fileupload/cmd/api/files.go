@@ -14,16 +14,16 @@ import (
 	"fileupload.renesanchez455.net/internal/data"
 )
 
-// createEntryHandler for the "POST /v1/files" endpoint
-func (app *application) uploadFileHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "upload a new file..")
-}
+// // createEntryHandler for the "POST /v1/files" endpoint
+// func (app *application) uploadFileHandler(w http.ResponseWriter, r *http.Request) {
+// 	fmt.Fprintln(w, "upload a new file..")
+// }
 
-// showEntryHandler for the "GET /v1/entries/:id" endpoint
+// showEntryHandler for the "GET /v1/rand/:id" endpoint
 func (app *application) showRandStringHandler(w http.ResponseWriter, r *http.Request) {
 	id, err := app.readIDParam(r)
 	if err != nil {
-		http.NotFound(w, r)
+		app.notFoundResponse(w, r)
 		return
 	}
 	// Display the random string
@@ -36,7 +36,7 @@ func (app *application) showRandStringHandler(w http.ResponseWriter, r *http.Req
 func (app *application) showUserHandler(w http.ResponseWriter, r *http.Request) {
 	id, err := app.readIDParam(r)
 	if err != nil {
-		http.NotFound(w, r)
+		app.notFoundResponse(w, r)
 		return
 	}
 
@@ -53,7 +53,6 @@ func (app *application) showUserHandler(w http.ResponseWriter, r *http.Request) 
 	}
 	err = app.writeJSON(w, http.StatusOK, envelope{"user": user}, nil)
 	if err != nil {
-		app.logger.Println(err)
-		http.Error(w, "The server encountered a problem and could not process your request", http.StatusInternalServerError)
+		app.serverErrorResponse(w, r, err)
 	}
 }
