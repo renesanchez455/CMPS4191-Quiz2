@@ -30,26 +30,20 @@ func (app *application) createUserHandler(w http.ResponseWriter, r *http.Request
 		app.badRequestResponse(w, r, err)
 		return
 	}
+
+	// Copy the values from the input struct to a new User struct
+	user := &data.User{
+		Name:       input.Name,
+		Phone:      input.Phone,
+		Email:      input.Email,
+		Address:    input.Address,
+		Occupation: input.Occupation,
+	}
 	// Initialize a new Validator Instance
 	v := validator.New()
-	// Use the Check() method to execute our validation checks
-	v.Check(input.Name != "", "name", "must be provided")
-	v.Check(len(input.Name) <= 200, "name", "must not be more than 200 bytes long")
-
-	v.Check(input.Phone != "", "phone", "must be provided")
-	v.Check(validator.Matches(input.Phone, validator.PhoneRx), "phone", "must be a valid phone number")
-
-	v.Check(input.Email != "", "email", "must be provided")
-	v.Check(validator.Matches(input.Email, validator.EmailRx), "email", "must be a valid email address")
-
-	v.Check(input.Address != "", "address", "must be provided")
-	v.Check(len(input.Address) <= 500, "address", "must not be more than 500 bytes long")
-
-	v.Check(input.Occupation != "", "occupation", "must be provided")
-	v.Check(len(input.Occupation) <= 200, "occupation", "must not be more than 200 bytes long")
 
 	// Check the map to determine if there were any validation errors
-	if !v.Valid() {
+	if data.ValidateUser(v, user); !v.Valid() {
 		app.failedValidationResponse(w, r, v.Errors)
 		return
 	}
