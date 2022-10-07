@@ -20,7 +20,6 @@ func (app *application) routes() *httprouter.Router {
 	router.HandlerFunc(http.MethodGet, "/v1/healthcheck", app.healthcheckHandler)
 	router.HandlerFunc(http.MethodPost, "/v1/user", app.createUserHandler)
 	router.HandlerFunc(http.MethodGet, "/v1/rand/:id", app.showRandStringHandler)
-	router.HandlerFunc(http.MethodGet, "/v1/user/:id", app.showUserHandler)
 
 	return router
 }
