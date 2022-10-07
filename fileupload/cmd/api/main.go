@@ -27,7 +27,7 @@ type config struct {
 type application struct {
 	config config
 	logger *log.Logger
-	//Tools  Tools
+	Tools  Tools
 }
 
 func main() {
