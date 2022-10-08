@@ -1,3 +1,9 @@
+/*
+	CMPS4191 - Quiz #2
+	Rene Sanchez - 2018118383
+*/
+// Filename: cmd/api/random.go
+
 package main
 
 import "crypto/rand"
